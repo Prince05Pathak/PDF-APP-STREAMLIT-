@@ -144,6 +144,17 @@ def main():
         # Create RAG chain for question answering (happens only once)
         rag_chain = create_rag_chain(retriever, openai_api_key)
 
+        # Add a download button for the generated Markdown file
+        with open(markdown_output_path, "r", encoding="utf-8") as f:
+            md_content = f.read()
+        
+        st.download_button(
+            label="Download Markdown File",
+            data=md_content,
+            file_name=os.path.basename(markdown_output_path),
+            mime="text/markdown"
+        )
+
         # Ask multiple questions and store question-answer pairs
         ask_questions(rag_chain)
 
