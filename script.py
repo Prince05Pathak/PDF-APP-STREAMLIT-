@@ -9,6 +9,9 @@ from langchain.schema.runnable import RunnablePassthrough
 from langchain.schema.output_parser import StrOutputParser
 import random
 import string
+from dotenv import load_dotenv
+load_dotenv()
+
 
 def set_api_keys():
     # Setting environment variables for API keys
