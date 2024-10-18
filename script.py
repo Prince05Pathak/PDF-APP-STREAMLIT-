@@ -31,7 +31,6 @@ def parse_pdf_to_markdown(filepath, output_path):
                 file.write(doc.text + "\n\n")
     return output_path
 
-
 def split_markdown_into_chunks(md_document_path):
     # Splitting the markdown document into chunks by headers
     with open(md_document_path, 'r', encoding='utf-8') as file:
@@ -45,63 +44,29 @@ def split_markdown_into_chunks(md_document_path):
     markdown_splitter = MarkdownHeaderTextSplitter(headers_to_split_on)
     md_header_chunks = markdown_splitter.split_text(md_document_content)
     
+    # Log the chunks for debugging
+    st.write("Markdown Header Chunks:", md_header_chunks)  # For debugging
     return md_header_chunks
 
-
 def create_faiss_retriever(md_header_chunks, openai_api_key):
+    # Ensure md_header_chunks is not empty
+    if not md_header_chunks:
+        raise ValueError("No markdown header chunks were created. Check the PDF parsing step.")
+    
     # Create OpenAI embeddings and FAISS vectorstore
     embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
-    vectorstore = FAISS.from_documents(md_header_chunks, embeddings)
-    return vectorstore.as_retriever()
-
-
-def create_rag_chain(retriever, openai_api_key):
-    # Define the prompt template
-    template = """
-    You are an assistance for question-answering tasks.
-    Use the following pieces of retrieved context to answer the question.
-    If you don't know the answer, just say that you don't know.
-    Use ten sentences maximum and keep the answer as per the retrieved context.
-    Question: {question}
-    Context: {context}
-    Answer:
-    """
-
-    # Set up the RAG pipeline
-    prompt = ChatPromptTemplate.from_template(template)
-    llm_model = ChatOpenAI(openai_api_key=openai_api_key, model_name="gpt-4o-mini")
-    output_parser = StrOutputParser()
-
-    rag_chain = (
-        {"context": retriever, "question": RunnablePassthrough()}
-        | prompt
-        | llm_model
-        | output_parser
-    )
-    return rag_chain
-
-
-def ask_questions(rag_chain):
-    # Streamlit form for user input
-    st.title("PDF CHAT BOT")
     
-    question = st.text_input("Enter your question:")
-    if st.button("Submit"):
-        if question:
-            # Invoke the RAG chain to answer the question
-            answer = rag_chain.invoke(question)
-            st.write("Answer:", answer)
-        else:
-            st.write("Please enter a question.")
-
-    return question
-
-
-def generate_random_filename(extension="md"):
-    """Generate a random filename with the specified extension."""
-    random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
-    return f"{random_string}.{extension}"
-
+    # Ensure embeddings can be generated from md_header_chunks
+    if not md_header_chunks:
+        raise ValueError("No documents to create embeddings from.")
+    
+    try:
+        vectorstore = FAISS.from_documents(md_header_chunks, embeddings)
+    except Exception as e:
+        st.error(f"Error creating FAISS vector store: {e}")
+        return None
+    
+    return vectorstore.as_retriever()
 
 def main():
     # Set up the API keys
@@ -114,8 +79,8 @@ def main():
 
     if uploaded_pdf:
         # Define a local directory to save the markdown file
-        local_dir = os.path.expanduser("~/Documents/pdf_to_md_files")  # Or specify any path you prefer
-        os.makedirs(local_dir, exist_ok=True)  # Create the directory if it doesn't exist
+        local_dir = os.path.expanduser("~/Documents/pdf_to_md_files")
+        os.makedirs(local_dir, exist_ok=True)
 
         # Save the uploaded PDF file to a local system path
         pdf_filepath = os.path.join(local_dir, uploaded_pdf.name)
@@ -130,17 +95,22 @@ def main():
             st.write(f"Markdown file already exists at: {markdown_output_path}. Using the existing file.")
         else:
             st.write("Parsing PDF and generating Markdown file...")
-            # Parse the PDF to Markdown and save to a file (this happens only if the file doesn't already exist)
+            # Parse the PDF to Markdown and save to a file
             parse_pdf_to_markdown(pdf_filepath, markdown_output_path)
             st.write(f"Markdown file saved at: {markdown_output_path}")
 
-        # Split the markdown document into chunks (happens only once)
+        # Split the markdown document into chunks
         md_header_chunks = split_markdown_into_chunks(markdown_output_path)
 
-        # Create FAISS retriever from markdown chunks (happens only once)
+        # Check if md_header_chunks is empty after parsing
+        if not md_header_chunks:
+            st.error("No markdown header chunks generated. Please check the PDF content.")
+            return
+
+        # Create FAISS retriever from markdown chunks
         retriever = create_faiss_retriever(md_header_chunks, openai_api_key)
 
-        # Create RAG chain for question answering (happens only once)
+        # Create RAG chain for question answering
         rag_chain = create_rag_chain(retriever, openai_api_key)
 
         # Ask multiple questions and store question-answer pairs
