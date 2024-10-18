@@ -13,13 +13,6 @@ import string
 def set_api_keys():
     # Setting environment variables for API keys
     OPENAIAPIKEY = "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"
-
-
-
-
-
-
-
     LLAMACLOUDAPIKEY = "llx-Ep3RATyCgmuHsVzvDMz30xYXbd8fqmQDjQk3fC7lRJbP2S4Q"
     os.environ["LLAMA_CLOUD_API_KEY"] = LLAMACLOUDAPIKEY
     os.environ["OPENAI_API_KEY"] = OPENAIAPIKEY
