@@ -11,22 +11,19 @@ import random
 import string
 
 def set_api_keys():
-    def set_api_keys():
-        try:
-            
-            OPENAIAPIKEY = st.secrets["OPENAI_API_KEY"]
-            LLAMACLOUDAPIKEY = st.secrets["LLAMA_CLOUD_API_KEY"]
+    # Setting environment variables for API keys
+    OPENAIAPIKEY = "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"
 
-        # Optionally, print debug info (do not print sensitive data in production)
-            st.write("Secrets loaded successfully.")
 
-        # Set environment variables
-            os.environ["LLAMA_CLOUD_API_KEY"] = LLAMACLOUDAPIKEY
-            os.environ["OPENAI_API_KEY"] = OPENAIAPIKEY
-            return OPENAIAPIKEY
-        except KeyError as e:
-            st.write(f"Secret Key Error: {str(e)}")
-            return None
+
+
+
+
+
+    LLAMACLOUDAPIKEY = "llx-Ep3RATyCgmuHsVzvDMz30xYXbd8fqmQDjQk3fC7lRJbP2S4Q"
+    os.environ["LLAMA_CLOUD_API_KEY"] = LLAMACLOUDAPIKEY
+    os.environ["OPENAI_API_KEY"] = OPENAIAPIKEY
+    return OPENAIAPIKEY
 
 
 def parse_pdf_to_markdown(filepath, output_path):
