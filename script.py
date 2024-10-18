@@ -15,7 +15,7 @@ def set_api_keys():
     
 
 
-    OPENAIAPIKEY == st.secrtes["OPENAI_API_KEY"]
+    OPENAIAPIKEY == st.secrets["OPENAI_API_KEY"]
 
     
     
