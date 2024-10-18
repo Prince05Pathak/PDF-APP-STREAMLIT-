@@ -15,8 +15,8 @@ load_dotenv()
 
 def set_api_keys():
     # Setting environment variables for API keys
-    LLAMACLOUDAPIKEY = os.getenv("LLAMA_CLOUD_API_KEY") 
-    OPENAIAPIKEY = os.getenv("OPENAI_API_KEY")
+    LLAMACLOUDAPIKEY = os.getenv["LLAMA_CLOUD_API_KEY"] 
+    OPENAIAPIKEY = os.getenv["OPENAI_API_KEY]
     return OPENAIAPIKEY
 
 def parse_pdf_to_markdown(filepath, output_path):
