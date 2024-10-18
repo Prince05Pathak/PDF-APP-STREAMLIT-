@@ -17,9 +17,9 @@ def set_api_keys():
 
     OPENAIAPIKEY == st.secrtes["OPENAI_API_KEY"]
 
-
     
-    LLAMACLOUDAPIKEY = "llx-Ep3RATyCgmuHsVzvDMz30xYXbd8fqmQDjQk3fC7lRJbP2S4Q"
+    
+    LLAMACLOUDAPIKEY == st.secrets["LLAMA_CLOUD_API_KEY"]
     os.environ["LLAMA_CLOUD_API_KEY"] = LLAMACLOUDAPIKEY
     os.environ["OPENAI_API_KEY"] = OPENAIAPIKEY
     return OPENAIAPIKEY
