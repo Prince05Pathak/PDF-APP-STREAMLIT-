@@ -24,12 +24,17 @@ def parse_pdf_to_markdown(filepath, output_path):
     parser = LlamaParse(result_type="markdown", num_workers=4, verbose=True, language="en")
     documents = parser.load_data(filepath)
     
+    # Log the documents for debugging
+    st.write("Parsed Documents:", documents)  # For debugging
+
     # Save the parsed markdown to a file
     with open(output_path, 'w', encoding='utf-8') as file:
         for doc in documents:
             if doc.text.strip():
                 file.write(doc.text + "\n\n")
+    
     return output_path
+
 
 def split_markdown_into_chunks(md_document_path):
     # Splitting the markdown document into chunks by headers
