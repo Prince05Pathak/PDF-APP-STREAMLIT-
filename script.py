@@ -12,7 +12,10 @@ import string
 
 def set_api_keys():
     # Setting environment variables for API keys
-    OPENAIAPIKEY = "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"
+
+    OPENAIAPIKEY = st.secrets["OPENAI_API_KEY"]
+    
+    #OPENAIAPIKEY = "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"
 
 
 
