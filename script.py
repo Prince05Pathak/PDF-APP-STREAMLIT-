@@ -15,11 +15,11 @@ def set_api_keys():
     
 
 
-    OPENAIAPIKEY == st.secrets["OPENAI_API_KEY"]
+    OPENAIAPIKEY = st.secrets["OPENAI_API_KEY"]
 
     
     
-    LLAMACLOUDAPIKEY == st.secrets["LLAMA_CLOUD_API_KEY"]
+    LLAMACLOUDAPIKEY = st.secrets["LLAMA_CLOUD_API_KEY"]
     os.environ["LLAMA_CLOUD_API_KEY"] = LLAMACLOUDAPIKEY
     os.environ["OPENAI_API_KEY"] = OPENAIAPIKEY
     return OPENAIAPIKEY
