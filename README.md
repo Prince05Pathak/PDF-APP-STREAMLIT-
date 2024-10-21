@@ -1,6 +1,9 @@
-# PDF-APP-STREAMLIT
+# PDF Chat Bot Function Overview
 
 ##### This document provides a breakdown of each function within the PDF Chat Bot application. The bot allows users to upload PDFs, convert them into Markdown, and then ask questions based on the content using a Retrieval-Augmented Generation (RAG) approach.
+
+Models used  for development of this bot :
+
 llama-parse == 0.5.8
 datasets == 3.0.1
 pandas == 2.2.3
@@ -17,10 +20,6 @@ langchain-openai == 0.2.2
 faiss-cpu == 1.9.0
 ragas == 0.2.1
 streamlit == 1.39.0
-
-For generation of results .
-
-
 
 # Steps to Use :
 
