@@ -1,6 +1,6 @@
 # PDF-APP-STREAMLIT
 
-### In this project I have generated a basic RAG(Retrieval Augumented Generation ) System that uses models like 
+##### This document provides a breakdown of each function within the PDF Chat Bot application. The bot allows users to upload PDFs, convert them into Markdown, and then ask questions based on the content using a Retrieval-Augmented Generation (RAG) approach.
 llama-parse == 0.5.8
 datasets == 3.0.1
 pandas == 2.2.3
@@ -21,6 +21,7 @@ streamlit == 1.39.0
 For generation of results .
 
 
+
 # Steps to Use :
 
   -> Step 01 : Install the requirements.txt for installation of dependecies mentioned above to use this application on your local machine.
@@ -29,5 +30,35 @@ For generation of results .
   -> Step 02 : Run the app using Streamlit command to deploy this application on Streamlit servers 
             Syntax : streamlit run script.py 
 
+# Functioning of the code :
+
+  01 -> Reading OpenAI and LLama Cloud Key :
+        In script.py the function " set_api_keys() " is used to set the api keys of OPENAI and LLAMA CLOUD for reading the pdf and generating 
+        embeddings for the chunks that got created after the parsing of the pdf.
+
+  02 -> Parsing PDF and generating Markdowns :
+        The function "def parse_pdf_to_markdown() " is used to read the pdf using the LLAMA PARSE and generating the markdown file's form it from
+        the chunks of the pdf are going to be generated
+
+  03 -> Markdown to Chunks generation :
+        In function "def split_markdown_into_chunks()" , I have used a model MarkdownHeaderTextSplitter from langchain_text_splitters to divide the data 
+        in the pdf on the basis of headings that are mentioned in the parsed data .
+        The chunked data formt is mentioned bellow :
+        ("#", "Header 1"),
+        ("##", "Header 2"),
+        ("###", "Header 3")
+
+  04 -> Generating embeddings :
+        The function " def create_faiss_retriever(md_header_chunks, openai_api_key)" creates a FAISS-based retriever that indexes markdown chunks using OpenAI              embeddings   for efficient search and retrieval of relevant information.
+  
+  05 -> Retrieval-Augmented Generation (RAG) pipeline setup :
+        The function "create_rag_chain(retriever, openai_api_key)" Sets up the Retrieval-Augmented Generation (RAG) pipeline to combine the retriever
+        with OpenAI’s language model for answering questions.
+
+  06 -> User Query Generation :
+        The function "ask_questions(rag_chain)" provides a Streamlit interface for users to input their questions and receive answers from the RAG pipeline.
+
+  07 -> Calling of whole application :
+        The function "main()" orchestrates the entire app flow, from uploading a PDF to interacting with the user through questions and answers.
 
   
