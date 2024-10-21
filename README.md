@@ -60,4 +60,5 @@ streamlit == 1.39.0
   07 -> Calling of whole application :
         The function "main()" orchestrates the entire app flow, from uploading a PDF to interacting with the user through questions and answers.
 
-  
+# Conclusion 
+This app enables users to upload a PDF, convert it into Markdown, and ask questions based on the document's content using a RAG approach. The process involves extracting content, chunking it, indexing it with FAISS, and generating answers via OpenAI’s GPT model. Each function plays a critical role in the overall pipeline.
