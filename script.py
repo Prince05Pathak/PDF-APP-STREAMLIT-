@@ -9,20 +9,15 @@ from langchain.schema.runnable import RunnablePassthrough
 from langchain.schema.output_parser import StrOutputParser
 import random
 import string
-
-import os
-
 def set_api_keys():
-    # Setting environment variables for API keys
-    
-    # Assign the API keys directly as strings
-    OPENAIAPIKEY = "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"
-    LLAMACLOUDAPIKEY = "llx-Ep3RATyCgmuHsVzvDMz30xYXbd8fqmQDjQk3fC7lRJbP2S4Q"
-    
-    # Set the API keys as environment variables
+    # Fetch API keys from Streamlit secrets
+    OPENAIAPIKEY = st.secrets["OPENAI_API_KEY"]
+    LLAMACLOUDAPIKEY = st.secrets["LLAMA_CLOUD_API_KEY"]
+
+    # Optionally set these secrets as environment variables if needed elsewhere
     os.environ["OPENAI_API_KEY"] = OPENAIAPIKEY
     os.environ["LLAMA_CLOUD_API_KEY"] = LLAMACLOUDAPIKEY
-    
+
     return OPENAIAPIKEY
 
 
