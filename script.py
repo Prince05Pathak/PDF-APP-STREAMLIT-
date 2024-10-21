@@ -10,19 +10,21 @@ from langchain.schema.output_parser import StrOutputParser
 import random
 import string
 
+import os
+
 def set_api_keys():
     # Setting environment variables for API keys
     
-
-
-    OPENAIAPIKEY = st.secrets["OPENAI_API_KEY"]
-
+    # Assign the API keys directly as strings
+    OPENAIAPIKEY = "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"
+    LLAMACLOUDAPIKEY = "llx-Ep3RATyCgmuHsVzvDMz30xYXbd8fqmQDjQk3fC7lRJbP2S4Q"
     
+    # Set the API keys as environment variables
+    os.environ["OPENAI_API_KEY"] = OPENAIAPIKEY
+    os.environ["LLAMA_CLOUD_API_KEY"] = LLAMACLOUDAPIKEY
     
-    LLAMACLOUDAPIKEY = st.secrets["LLAMA_CLOUD_API_KEY"]
-    #os.environ["LLAMA_CLOUD_API_KEY"] = LLAMACLOUDAPIKEY
-    #os.environ["OPENAI_API_KEY"] = OPENAIAPIKEY
     return OPENAIAPIKEY
+
 
 
 def parse_pdf_to_markdown(filepath, output_path):
